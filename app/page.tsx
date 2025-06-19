@@ -341,7 +341,13 @@ export default function KanbanApp() {
                 Tags
               </Button>
 
-              <Button variant="outline" size="sm" onClick={() => setShowAddColumn(true)} className="hover:bg-accent">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowAddColumn(true)}
+                className={`hover:bg-accent ${board.columns.length === 0 ? 'ring-2 ring-primary ring-offset-2 animate-pulse' : ''}`}
+                id="add-column-btn"
+              >
                 <Plus className="h-4 w-4 mr-2" />
                 Column
               </Button>
@@ -379,6 +385,13 @@ export default function KanbanApp() {
                   </Badge>
                 ) : null
               })}
+            </div>
+          )}
+
+          {/* Show message if no columns exist */}
+          {board.columns.length === 0 && (
+            <div className="flex flex-col items-center justify-center mt-10">
+              <span className="text-lg font-medium text-muted-foreground mb-2">Click <span className="font-bold text-primary">+ Column</span> to get started.</span>
             </div>
           )}
         </div>
