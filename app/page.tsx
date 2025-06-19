@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Plus, Search, Filter, Download, Upload, Moon, Sun } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -46,6 +46,8 @@ export default function KanbanApp() {
   const [selectedColumnId, setSelectedColumnId] = useState<string>("")
   const [selectedCard, setSelectedCard] = useState<Card | null>(null)
   const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
 
   const [showExtendDueDate, setShowExtendDueDate] = useState(false)
   const [extendingCard, setExtendingCard] = useState<Card | null>(null)
@@ -309,7 +311,7 @@ export default function KanbanApp() {
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
                 className="hover:bg-accent"
               >
-                {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                {mounted ? (theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />) : null}
               </Button>
             </div>
 
