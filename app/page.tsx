@@ -115,6 +115,22 @@ export default function KanbanApp() {
       const cardToMove = fromColumn.cards.find((card) => card.id === cardId)
       if (!cardToMove) return prev
 
+      // Moving within the same column (reorder)
+      if (fromColumnId === toColumnId) {
+        const newCards = [...fromColumn.cards]
+        const oldIndex = newCards.findIndex((card) => card.id === cardId)
+        if (oldIndex === -1) return prev
+
+        newCards.splice(oldIndex, 1) // Remove from old position
+        newCards.splice(newIndex, 0, cardToMove) // Insert at new position
+
+        const newColumns = prev.columns.map((col) =>
+          col.id === fromColumnId ? { ...col, cards: newCards } : col
+        )
+        return { ...prev, columns: newColumns }
+      }
+
+      // Moving to a different column
       const newColumns = prev.columns.map((col) => {
         if (col.id === fromColumnId) {
           return {
